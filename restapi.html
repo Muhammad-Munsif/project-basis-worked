@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RESTful API Tutorial</title>
+    <style>
+      :root {
+        --primary: #3498db;
+        --secondary: #2ecc71;
+        --accent: #e74c3c;
+        --dark: #2c3e50;
+        --light: #ecf0f1;
+        --gray: #95a5a6;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f5f7fa;
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .progress-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .progress-bar {
+        height: 10px;
+        background-color: var(--light);
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 10px 0;
+      }
+
+      .progress {
+        height: 100%;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+
+      .content {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .main-content {
+        flex: 2;
+        min-width: 300px;
+      }
+
+      .sidebar {
+        flex: 1;
+        min-width: 250px;
+        background-color: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      h2 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--light);
+        padding-bottom: 0.5rem;
+      }
+
+      h3 {
+        color: var(--secondary);
+        margin: 1rem 0;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      .code-block {
+        background-color: #2d3a4b;
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 5px;
+        overflow-x: auto;
+        margin: 1rem 0;
+        font-family: "Courier New", monospace;
+      }
+
+      .endpoint {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+        padding: 0.5rem;
+        background-color: var(--light);
+        border-radius: 5px;
+      }
+
+      .method {
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        margin-right: 1rem;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .get {
+        background-color: var(--secondary);
+      }
+      .post {
+        background-color: var(--primary);
+      }
+      .put {
+        background-color: #f39c12;
+      }
+      .delete {
+        background-color: var(--accent);
+      }
+
+      .endpoint-url {
+        font-family: "Courier New", monospace;
+      }
+
+      .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+      }
+
+      button {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--primary);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      button.prev {
+        background-color: var(--gray);
+      }
+
+      button.prev:hover {
+        background-color: #7f8c8d;
+      }
+
+      .example {
+        background-color: #f9f9f9;
+        border-left: 4px solid var(--primary);
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .sidebar ul {
+        list-style-type: none;
+        padding-left: 1rem;
+      }
+
+      .sidebar li {
+        margin-bottom: 0.8rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .sidebar li:hover {
+        background-color: var(--light);
+      }
+
+      .sidebar li.active {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .tab {
+        display: none;
+      }
+
+      .tab.active {
+        display: block;
+      }
+
+      .interactive-demo {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .demo-result {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 1rem;
+        margin-top: 1rem;
+        min-height: 100px;
+      }
+
+      @media (max-width: 768px) {
+        .content {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>RESTful API Tutorial</h1>
+        <p class="subtitle">A Step-by-Step Guide for Beginners</p>
+      </header>
+
+      <div class="progress-container">
+        <h3>Your Progress</h3>
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+        <p>Complete the lessons to fill the progress bar</p>
+      </div>
+
+      <div class="content">
+        <div class="main-content">
+          <div class="tab active" id="tab1">
+            <div class="card">
+              <h2>What is a RESTful API?</h2>
+              <p>
+                A RESTful API is an application programming interface that
+                follows the constraints of REST (Representational State
+                Transfer) architecture.
+              </p>
+
+              <div class="example">
+                <h3>Real-World Analogy</h3>
+                <p>
+                  Think of a restaurant menu. The menu provides a list of items
+                  you can order, along with a description of each item. When you
+                  specify what menu items you want, the restaurant kitchen
+                  prepares the food and serves it to you.
+                </p>
+                <p>
+                  In this analogy, the menu is the API, the order is the
+                  request, and the food served is the response.
+                </p>
+              </div>
+
+              <h3>Key Principles of REST</h3>
+              <ul>
+                <li>
+                  <strong>Client-Server</strong>: Separation of concerns between
+                  interface and data storage
+                </li>
+                <li>
+                  <strong>Stateless</strong>: Each request contains all
+                  information needed to process it
+                </li>
+                <li>
+                  <strong>Cacheable</strong>: Responses must define themselves
+                  as cacheable or not
+                </li>
+                <li>
+                  <strong>Uniform Interface</strong>: Consistent way of
+                  interacting with the server
+                </li>
+                <li>
+                  <strong>Layered System</strong>: Architecture composed of
+                  hierarchical layers
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tab" id="tab2">
+            <div class="card">
+              <h2>HTTP Methods & Status Codes</h2>
+              <p>
+                RESTful APIs use standard HTTP methods to perform operations on
+                resources:
+              </p>
+
+              <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="endpoint-url">/api/users</span>
+                <span>Retrieve users</span>
+              </div>
+
+              <div class="endpoint">
+                <span class="method post">POST</span>
+                <span class="endpoint-url">/api/users</span>
+                <span>Create a new user</span>
+              </div>
+
+              <div class="endpoint">
+                <span class="method put">PUT</span>
+                <span class="endpoint-url">/api/users/1</span>
+                <span>Update user with ID 1</span>
+              </div>
+
+              <div class="endpoint">
+                <span class="method delete">DELETE</span>
+                <span class="endpoint-url">/api/users/1</span>
+                <span>Delete user with ID 1</span>
+              </div>
+
+              <h3>Common HTTP Status Codes</h3>
+              <ul>
+                <li><strong>200 OK</strong>: Request succeeded</li>
+                <li>
+                  <strong>201 Created</strong>: Resource created successfully
+                </li>
+                <li>
+                  <strong>400 Bad Request</strong>: Server cannot process
+                  request
+                </li>
+                <li><strong>404 Not Found</strong>: Resource doesn't exist</li>
+                <li>
+                  <strong>500 Internal Server Error</strong>: Server encountered
+                  an error
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tab" id="tab3">
+            <div class="card">
+              <h2>API Endpoints & Structure</h2>
+              <p>
+                RESTful APIs have endpoints that represent resources. The
+                endpoints should be named with nouns (not verbs) and use plural
+                forms.
+              </p>
+
+              <div class="code-block">
+                // Good endpoint structure<br />
+                GET /api/users // Get all users<br />
+                GET /api/users/1 // Get user with ID 1<br />
+                POST /api/users // Create a new user<br />
+                PUT /api/users/1 // Update user with ID 1<br />
+                DELETE /api/users/1 // Delete user with ID 1<br /><br />
+
+                // Endpoints for nested resources<br />
+                GET /api/users/1/posts // Get posts by user with ID 1
+              </div>
+
+              <div class="example">
+                <h3>Real-World Example: Blog API</h3>
+                <p>
+                  Imagine we're building a blog platform. Our API might have
+                  these endpoints:
+                </p>
+                <ul>
+                  <li><code>GET /api/posts</code> - Get all blog posts</li>
+                  <li>
+                    <code>GET /api/posts/5</code> - Get blog post with ID 5
+                  </li>
+                  <li><code>POST /api/posts</code> - Create a new blog post</li>
+                  <li>
+                    <code>PUT /api/posts/5</code> - Update blog post with ID 5
+                  </li>
+                  <li>
+                    <code>DELETE /api/posts/5</code> - Delete blog post with ID
+                    5
+                  </li>
+                  <li>
+                    <code>GET /api/posts/5/comments</code> - Get comments for
+                    post with ID 5
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab" id="tab4">
+            <div class="card">
+              <h2>Making API Requests</h2>
+              <p>
+                You can interact with RESTful APIs using various tools and
+                programming languages. Here's how to make requests using
+                JavaScript:
+              </p>
+
+              <div class="code-block">
+                // GET request to retrieve data<br />
+                fetch('https://api.example.com/users')<br />
+                &nbsp;&nbsp;.then(response => response.json())<br />
+                &nbsp;&nbsp;.then(data => console.log(data))<br />
+                &nbsp;&nbsp;.catch(error => console.error('Error:', error));<br /><br />
+
+                // POST request to create data<br />
+                fetch('https://api.example.com/users', {<br />
+                &nbsp;&nbsp;method: 'POST',<br />
+                &nbsp;&nbsp;headers: {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;'Content-Type': 'application/json'<br />
+                &nbsp;&nbsp;},<br />
+                &nbsp;&nbsp;body: JSON.stringify({<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;name: 'John Doe',<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;email: 'john@example.com'<br />
+                &nbsp;&nbsp;})<br />
+                })<br />
+                .then(response => response.json())<br />
+                .then(data => console.log(data))<br />
+                .catch(error => console.error('Error:', error));
+              </div>
+
+              <div class="interactive-demo">
+                <h3>Try it out: GET Request</h3>
+                <p>
+                  Click the button below to simulate a GET request to a mock
+                  API:
+                </p>
+                <button onclick="simulateGetRequest()">Make GET Request</button>
+                <div class="demo-result" id="get-result">
+                  Result will appear here...
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab" id="tab5">
+            <div class="card">
+              <h2>Building a Simple API</h2>
+              <p>
+                Let's create a simple RESTful API using Node.js and Express:
+              </p>
+
+              <div class="code-block">
+                // Install Express: npm install express<br /><br />
+
+                const express = require('express');<br />
+                const app = express();<br />
+                const port = 3000;<br /><br />
+
+                // Middleware to parse JSON<br />
+                app.use(express.json());<br /><br />
+
+                // Sample data<br />
+                let users = [<br />
+                &nbsp;&nbsp;{ id: 1, name: 'John Doe', email: 'john@example.com'
+                },<br />
+                &nbsp;&nbsp;{ id: 2, name: 'Jane Smith', email:
+                'jane@example.com' }<br />
+                ];<br /><br />
+
+                // GET all users<br />
+                app.get('/api/users', (req, res) => {<br />
+                &nbsp;&nbsp;res.json(users);<br />
+                });<br /><br />
+
+                // GET user by ID<br />
+                app.get('/api/users/:id', (req, res) => {<br />
+                &nbsp;&nbsp;const user = users.find(u => u.id ===
+                parseInt(req.params.id));<br />
+                &nbsp;&nbsp;if (!user) return res.status(404).send('User not
+                found');<br />
+                &nbsp;&nbsp;res.json(user);<br />
+                });<br /><br />
+
+                // POST create a new user<br />
+                app.post('/api/users', (req, res) => {<br />
+                &nbsp;&nbsp;const user = {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;id: users.length + 1,<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;name: req.body.name,<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;email: req.body.email<br />
+                &nbsp;&nbsp;};<br />
+                &nbsp;&nbsp;users.push(user);<br />
+                &nbsp;&nbsp;res.status(201).json(user);<br />
+                });<br /><br />
+
+                app.listen(port, () => {<br />
+                &nbsp;&nbsp;console.log(`Server running on port ${port}`);<br />
+                });
+              </div>
+
+              <div class="example">
+                <h3>Testing Your API</h3>
+                <p>You can test your API using tools like:</p>
+                <ul>
+                  <li><strong>Postman</strong>: A popular API testing tool</li>
+                  <li>
+                    <strong>curl</strong>: Command-line tool for making requests
+                  </li>
+                  <li>
+                    <strong>Thunder Client</strong>: VS Code extension for API
+                    testing
+                  </li>
+                  <li><strong>Web browser</strong>: For GET requests</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button class="prev" onclick="prevTab()">Previous</button>
+            <button class="next" onclick="nextTab()">Next</button>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <h2>Lesson Outline</h2>
+          <ul>
+            <li class="active" onclick="changeTab(1)">
+              1. What is a RESTful API?
+            </li>
+            <li onclick="changeTab(2)">2. HTTP Methods & Status Codes</li>
+            <li onclick="changeTab(3)">3. API Endpoints & Structure</li>
+            <li onclick="changeTab(4)">4. Making API Requests</li>
+            <li onclick="changeTab(5)">5. Building a Simple API</li>
+          </ul>
+
+          <div class="card">
+            <h2>Practice Project</h2>
+            <p>Create a simple Book API with these endpoints:</p>
+            <ul>
+              <li>GET /api/books - Get all books</li>
+              <li>GET /api/books/:id - Get a specific book</li>
+              <li>POST /api/books - Add a new book</li>
+              <li>PUT /api/books/:id - Update a book</li>
+              <li>DELETE /api/books/:id - Delete a book</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentTab = 1;
+      const totalTabs = 5;
+
+      function updateProgress() {
+        const progress = (currentTab / totalTabs) * 100;
+        document.getElementById("progress").style.width = `${progress}%`;
+      }
+
+      function changeTab(tabNumber) {
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        document.querySelectorAll(".sidebar li").forEach((li, index) => {
+          li.classList.remove("active");
+          if (index + 1 === tabNumber) {
+            li.classList.add("active");
+          }
+        });
+
+        document.getElementById(`tab${tabNumber}`).classList.add("active");
+        currentTab = tabNumber;
+        updateProgress();
+      }
+
+      function nextTab() {
+        if (currentTab < totalTabs) {
+          changeTab(currentTab + 1);
+        }
+      }
+
+      function prevTab() {
+        if (currentTab > 1) {
+          changeTab(currentTab - 1);
+        }
+      }
+
+      function simulateGetRequest() {
+        const resultDiv = document.getElementById("get-result");
+        resultDiv.innerHTML = "Fetching data...";
+
+        // Simulate API call delay
+        setTimeout(() => {
+          resultDiv.innerHTML = `
+                    <strong>Response:</strong> (Status: 200 OK)
+                    <pre>[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "email": "jane@example.com"
+  }
+]</pre>
+                `;
+        }, 1500);
+      }
+
+      // Initialize progress bar
+      updateProgress();
+    </script>
+  </body>
+</html>
