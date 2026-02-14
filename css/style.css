@@ -1,4 +1,4 @@
-<style>
+
     /* ===== RESET & DESIGN VARIABLES (Light & Dark) ===== */
     * {
       margin: 0;
@@ -747,4 +747,4 @@
       .hero { padding: 140px 0 60px; }
       .pricing-card.popular { transform: scale(1); }
     }
-  </style>
+  
