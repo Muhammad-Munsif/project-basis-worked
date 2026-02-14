@@ -1,4 +1,4 @@
-  <script>
+  
     (function() {
       // ===== DOM ELEMENTS =====
       const body = document.body;
@@ -144,4 +144,4 @@
         }
       });
     })();
-  </script>
+  
