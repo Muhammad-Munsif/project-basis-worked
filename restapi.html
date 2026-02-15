@@ -327,3 +327,272 @@
     <script src="js/restapi.js"></script>
   </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RESTful API Tutorial for Beginners</title>
+    <link rel="stylesheet" href="css/api.css" />
+  </head>
+  <body>
+    <header>
+      <h1>RESTful API Tutorial for Beginners</h1>
+      <p class="subtitle">
+        Learn REST API concepts with clear explanations and real-world examples
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>What is a RESTful API?</h2>
+      <p>
+        A RESTful API is an application programming interface that follows the
+        constraints of REST (Representational State Transfer) architecture.
+      </p>
+
+      <div class="example">
+        <h3>Real-World Analogy</h3>
+        <p>
+          Think of a restaurant menu. The menu provides a list of items you can
+          order, along with a description of each item. When you specify what
+          menu items you want, the restaurant kitchen prepares the food and
+          serves it to you.
+        </p>
+        <p>
+          In this analogy, the menu is the API, the order is the request, and
+          the food served is the response.
+        </p>
+      </div>
+
+      <h3>Key Principles of REST</h3>
+      <ul>
+        <li>
+          <strong>Client-Server</strong>: Separation of concerns between
+          interface and data storage
+        </li>
+        <li>
+          <strong>Stateless</strong>: Each request contains all information
+          needed to process it
+        </li>
+        <li>
+          <strong>Cacheable</strong>: Responses must define themselves as
+          cacheable or not
+        </li>
+        <li>
+          <strong>Uniform Interface</strong>: Consistent way of interacting with
+          the server
+        </li>
+        <li>
+          <strong>Layered System</strong>: Architecture composed of hierarchical
+          layers
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>HTTP Methods & Status Codes</h2>
+      <p>
+        RESTful APIs use standard HTTP methods to perform operations on
+        resources:
+      </p>
+
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <span class="endpoint-url">/api/users</span>
+        <span>Retrieve users</span>
+      </div>
+
+      <div class="endpoint">
+        <span class="method post">POST</span>
+        <span class="endpoint-url">/api/users</span>
+        <span>Create a new user</span>
+      </div>
+
+      <div class="endpoint">
+        <span class="method put">PUT</span>
+        <span class="endpoint-url">/api/users/1</span>
+        <span>Update user with ID 1</span>
+      </div>
+
+      <div class="endpoint">
+        <span class="method delete">DELETE</span>
+        <span class="endpoint-url">/api/users/1</span>
+        <span>Delete user with ID 1</span>
+      </div>
+
+      <h3>Common HTTP Status Codes</h3>
+      <table class="http-table">
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>200</td>
+          <td>OK</td>
+          <td>Request succeeded</td>
+        </tr>
+        <tr>
+          <td>201</td>
+          <td>Created</td>
+          <td>Resource created successfully</td>
+        </tr>
+        <tr>
+          <td>400</td>
+          <td>Bad Request</td>
+          <td>Server cannot process request</td>
+        </tr>
+        <tr>
+          <td>404</td>
+          <td>Not Found</td>
+          <td>Resource doesn't exist</td>
+        </tr>
+        <tr>
+          <td>500</td>
+          <td>Internal Server Error</td>
+          <td>Server encountered an error</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>API Endpoints & Structure</h2>
+      <p>
+        RESTful APIs have endpoints that represent resources. The endpoints
+        should be named with nouns (not verbs) and use plural forms.
+      </p>
+
+      <div class="code-block">
+        // Good endpoint structure GET /api/users // Get all users GET
+        /api/users/1 // Get user with ID 1 POST /api/users // Create a new user
+        PUT /api/users/1 // Update user with ID 1 DELETE /api/users/1 // Delete
+        user with ID 1 // Endpoints for nested resources GET /api/users/1/posts
+        // Get posts by user with ID 1
+      </div>
+
+      <div class="example">
+        <h3>Real-World Example: Blog API</h3>
+        <p>
+          Imagine we're building a blog platform. Our API might have these
+          endpoints:
+        </p>
+        <ul>
+          <li><code>GET /api/posts</code> - Get all blog posts</li>
+          <li><code>GET /api/posts/5</code> - Get blog post with ID 5</li>
+          <li><code>POST /api/posts</code> - Create a new blog post</li>
+          <li><code>PUT /api/posts/5</code> - Update blog post with ID 5</li>
+          <li><code>DELETE /api/posts/5</code> - Delete blog post with ID 5</li>
+          <li>
+            <code>GET /api/posts/5/comments</code> - Get comments for post with
+            ID 5
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Making API Requests</h2>
+      <p>
+        You can interact with RESTful APIs using various tools and programming
+        languages. Here's how to make requests using JavaScript:
+      </p>
+
+      <div class="code-block">
+        // GET request to retrieve data fetch('https://api.example.com/users')
+        .then(response => response.json()) .then(data => console.log(data))
+        .catch(error => console.error('Error:', error)); // POST request to
+        create data fetch('https://api.example.com/users', { method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+        name: 'John Doe', email: 'john@example.com' }) }) .then(response =>
+        response.json()) .then(data => console.log(data)) .catch(error =>
+        console.error('Error:', error));
+      </div>
+
+      <div class="interactive-demo">
+        <h3>Try it out: API Request Simulation</h3>
+        <p>Click the buttons below to simulate API requests:</p>
+        <button onclick="simulateGetRequest()">Simulate GET Request</button>
+        <button onclick="simulatePostRequest()">Simulate POST Request</button>
+        <div class="demo-result" id="api-result">
+          Results will appear here...
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>REST API Visual Explanation</h2>
+
+      <div class="visual-explanation">
+        <div class="visual-card">
+          <h3>Client</h3>
+          <p>Web Browser, Mobile App, or other software</p>
+          <p>→ Makes HTTP Requests →</p>
+        </div>
+
+        <div class="visual-card">
+          <h3>Server</h3>
+          <p>API Endpoints</p>
+          <p>← Returns HTTP Responses ←</p>
+        </div>
+
+        <div class="visual-card">
+          <h3>Data Storage</h3>
+          <p>Database or other persistence layer</p>
+        </div>
+      </div>
+
+      <div class="example">
+        <h3>Complete Flow Example</h3>
+        <ol>
+          <li>Client sends <code>GET /api/products</code> request to server</li>
+          <li>Server receives request and processes it</li>
+          <li>Server queries database for product list</li>
+          <li>Database returns product data to server</li>
+          <li>Server formats data as JSON and sends response</li>
+          <li>Client receives response and displays products</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Real-World API Example: Weather Service</h2>
+
+      <div class="code-block">
+        // Example API request to weather service GET
+        https://api.weatherapi.com/v1/current.json?key=YOUR_KEY&q=London //
+        Example response { "location": { "name": "London", "region": "City of
+        London, Greater London", "country": "United Kingdom", "lat": 51.52,
+        "lon": -0.11, "localtime": "2023-05-15 12:30" }, "current": { "temp_c":
+        15.0, "condition": { "text": "Partly cloudy", "icon":
+        "//cdn.weatherapi.com/weather/64x64/day/116.png" }, "wind_kph": 9.4,
+        "humidity": 82 } }
+      </div>
+
+      <div class="step">
+        <span class="step-number">1</span>
+        <strong>API Key</strong>: Most services require authentication via API
+        keys
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <strong>Endpoint</strong>: Specific URL for the weather data
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <strong>Parameters</strong>: Query parameters specify location and
+        options
+      </div>
+
+      <div class="step">
+        <span class="step-number">4</span>
+        <strong>Response</strong>: JSON data with the requested information
+      </div>
+    </div>
+
+    <script src="js/api.js"></script>
+  </body>
+</html>
+
