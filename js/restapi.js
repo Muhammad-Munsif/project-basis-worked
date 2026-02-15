@@ -1,4 +1,4 @@
-<script>
+
     (function() {
       // ----- theme management -----
       const body = document.body;
@@ -106,4 +106,4 @@
         }
       });
     })();
-  </script>
+  
