@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>REST API Lab · interactive tutorial</title>
   <!-- Font Awesome 6 for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
+
 </head>
+
 <body data-theme="light">
   <div class="container">
     <!-- header with theme toggle -->
@@ -38,10 +40,12 @@
         <div class="tab-content active" id="tab1">
           <div class="card">
             <h2>📖 What is a RESTful API?</h2>
-            <p>A RESTful API follows the constraints of <strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer architecture. It uses HTTP methods to access and manipulate resources.</p>
+            <p>A RESTful API follows the constraints of <strong>RE</strong>presentational <strong>S</strong>tate
+              <strong>T</strong>ransfer architecture. It uses HTTP methods to access and manipulate resources.</p>
             <div class="example">
               <h3>🍽️ Restaurant analogy</h3>
-              <p><strong>Menu</strong> = API endpoints · <strong>Your order</strong> = request · <strong>Food served</strong> = response.</p>
+              <p><strong>Menu</strong> = API endpoints · <strong>Your order</strong> = request · <strong>Food
+                  served</strong> = response.</p>
             </div>
             <h3>Key REST principles</h3>
             <ul style="padding-left: 1.5rem; color: var(--text-secondary);">
@@ -58,19 +62,47 @@
         <div class="tab-content" id="tab2">
           <div class="card">
             <h2>🔧 HTTP methods & status codes</h2>
-            <div class="endpoint"><span class="method get">GET</span><span class="endpoint-url">/api/users</span><span>Retrieve users</span></div>
-            <div class="endpoint"><span class="method post">POST</span><span class="endpoint-url">/api/users</span><span>Create user</span></div>
-            <div class="endpoint"><span class="method put">PUT</span><span class="endpoint-url">/api/users/1</span><span>Update user 1</span></div>
-            <div class="endpoint"><span class="method delete">DELETE</span><span class="endpoint-url">/api/users/1</span><span>Delete user 1</span></div>
+            <div class="endpoint"><span class="method get">GET</span><span
+                class="endpoint-url">/api/users</span><span>Retrieve users</span></div>
+            <div class="endpoint"><span class="method post">POST</span><span
+                class="endpoint-url">/api/users</span><span>Create user</span></div>
+            <div class="endpoint"><span class="method put">PUT</span><span
+                class="endpoint-url">/api/users/1</span><span>Update user 1</span></div>
+            <div class="endpoint"><span class="method delete">DELETE</span><span
+                class="endpoint-url">/api/users/1</span><span>Delete user 1</span></div>
 
             <h3>Common HTTP status codes</h3>
             <table class="http-table">
-              <tr><th>Code</th><th>Name</th><th>Description</th></tr>
-              <tr><td>200</td><td>OK</td><td>Request succeeded</td></tr>
-              <tr><td>201</td><td>Created</td><td>Resource created</td></tr>
-              <tr><td>400</td><td>Bad Request</td><td>Invalid input</td></tr>
-              <tr><td>404</td><td>Not Found</td><td>Resource missing</td></tr>
-              <tr><td>500</td><td>Internal Error</td><td>Server fault</td></tr>
+              <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <td>200</td>
+                <td>OK</td>
+                <td>Request succeeded</td>
+              </tr>
+              <tr>
+                <td>201</td>
+                <td>Created</td>
+                <td>Resource created</td>
+              </tr>
+              <tr>
+                <td>400</td>
+                <td>Bad Request</td>
+                <td>Invalid input</td>
+              </tr>
+              <tr>
+                <td>404</td>
+                <td>Not Found</td>
+                <td>Resource missing</td>
+              </tr>
+              <tr>
+                <td>500</td>
+                <td>Internal Error</td>
+                <td>Server fault</td>
+              </tr>
             </table>
           </div>
         </div>
@@ -81,12 +113,12 @@
             <h2>🧩 Endpoint structure & naming</h2>
             <p>Use nouns, plural forms, and nested routes for relations.</p>
             <div class="code-block">
-              GET    /api/users          // all users<br>
-              GET    /api/users/42       // specific user<br>
-              POST   /api/users          // create new<br>
-              PUT    /api/users/42       // update<br>
-              DELETE /api/users/42       // delete<br>
-              GET    /api/users/42/posts // nested
+              GET /api/users // all users<br>
+              GET /api/users/42 // specific user<br>
+              POST /api/users // create new<br>
+              PUT /api/users/42 // update<br>
+              DELETE /api/users/42 // delete<br>
+              GET /api/users/42/posts // nested
             </div>
             <div class="example">
               <h3>📝 Blog API example</h3>
@@ -107,13 +139,13 @@
             <div class="code-block">
               // GET example<br>
               fetch('https://api.example.com/users')<br>
-                .then(res => res.json())<br>
-                .then(console.log);<br><br>
+              .then(res => res.json())<br>
+              .then(console.log);<br><br>
               // POST example<br>
               fetch('/api/users', {<br>
-                method: 'POST',<br>
-                headers: {'Content-Type': 'application/json'},<br>
-                body: JSON.stringify({ name: 'Alex' })<br>
+              method: 'POST',<br>
+              headers: {'Content-Type': 'application/json'},<br>
+              body: JSON.stringify({ name: 'Alex' })<br>
               });
             </div>
 
@@ -139,8 +171,8 @@
               let users = [{ id:1, name:'John' }];<br><br>
               app.get('/api/users', (req,res) => res.json(users));<br>
               app.post('/api/users', (req,res) => {<br>
-                &nbsp;&nbsp;const user = { id: users.length+1, ...req.body };<br>
-                &nbsp;&nbsp;users.push(user); res.status(201).json(user);<br>
+              &nbsp;&nbsp;const user = { id: users.length+1, ...req.body };<br>
+              &nbsp;&nbsp;users.push(user); res.status(201).json(user);<br>
               });<br>
               app.listen(3000);
             </div>
@@ -158,10 +190,15 @@
         <div class="card" style="margin-top:1rem;">
           <h3>📊 Visual flow</h3>
           <div class="visual-row">
-            <div class="visual-card"><i class="fas fa-mobile-alt"></i><br><strong>Client</strong><br><span style="font-size:0.9rem;">App / browser</span></div>
-            <div class="visual-card"><i class="fas fa-arrow-right"></i><i class="fas fa-arrow-left"></i><br><strong>HTTP</strong><br><span style="font-size:0.9rem;">request/response</span></div>
-            <div class="visual-card"><i class="fas fa-server"></i><br><strong>Server</strong><br><span style="font-size:0.9rem;">API + logic</span></div>
-            <div class="visual-card"><i class="fas fa-database"></i><br><strong>Database</strong><br><span style="font-size:0.9rem;">storage</span></div>
+            <div class="visual-card"><i class="fas fa-mobile-alt"></i><br><strong>Client</strong><br><span
+                style="font-size:0.9rem;">App / browser</span></div>
+            <div class="visual-card"><i class="fas fa-arrow-right"></i><i
+                class="fas fa-arrow-left"></i><br><strong>HTTP</strong><br><span
+                style="font-size:0.9rem;">request/response</span></div>
+            <div class="visual-card"><i class="fas fa-server"></i><br><strong>Server</strong><br><span
+                style="font-size:0.9rem;">API + logic</span></div>
+            <div class="visual-card"><i class="fas fa-database"></i><br><strong>Database</strong><br><span
+                style="font-size:0.9rem;">storage</span></div>
           </div>
         </div>
       </div>
@@ -181,14 +218,15 @@
           <h4><i class="fas fa-lightbulb"></i> Practice project</h4>
           <p style="font-size:0.95rem;">Create a Book API with:</p>
           <ul>
-            <li>GET    /api/books</li>
-            <li>GET    /api/books/:id</li>
-            <li>POST   /api/books</li>
-            <li>PUT    /api/books/:id</li>
+            <li>GET /api/books</li>
+            <li>GET /api/books/:id</li>
+            <li>POST /api/books</li>
+            <li>PUT /api/books/:id</li>
             <li>DELETE /api/books/:id</li>
           </ul>
         </div>
-        <p style="font-size:0.85rem; margin-top:1.5rem; color:var(--text-muted);"><i class="fas fa-sync-alt"></i> Use Alt+T to toggle theme</p>
+        <p style="font-size:0.85rem; margin-top:1.5rem; color:var(--text-muted);"><i class="fas fa-sync-alt"></i> Use
+          Alt+T to toggle theme</p>
       </div>
     </div>
 
@@ -199,4 +237,5 @@
 
   <script src="js/restapi.js"></script>
 </body>
+
 </html>
